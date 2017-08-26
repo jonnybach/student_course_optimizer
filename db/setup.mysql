@@ -1,0 +1,4 @@
+CREATE DATABASE project3ag;
+GRANT ALL PRIVILEGES ON project3ag.* TO 'project3ag'@'localhost' IDENTIFIED BY 'cs6310p3ag';
+GRANT ALL PRIVILEGES ON project3ag.* TO 'project3ag'@'127.0.0.1' IDENTIFIED BY 'cs6310p3ag';
+FLUSH PRIVILEGES;

@@ -1,0 +1,320 @@
+-- MySQL dump 10.13  Distrib 5.6.29, for osx10.10 (x86_64)
+--
+-- Host: localhost    Database: project3ag
+-- ------------------------------------------------------
+-- Server version	5.6.27
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `Course`
+--
+
+DROP TABLE IF EXISTS `Course`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Course` (
+  `id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `number` varchar(50) NOT NULL,
+  `fall` tinyint(1) NOT NULL,
+  `spring` tinyint(1) NOT NULL,
+  `summer` tinyint(1) NOT NULL,
+  `availability` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Course`
+--
+
+LOCK TABLES `Course` WRITE;
+/*!40000 ALTER TABLE `Course` DISABLE KEYS */;
+INSERT INTO `Course` VALUES (1,'Advanced Operating Systems','6210',1,0,0,'Fall Only'),(2,'Computer Networks','6250',1,1,1,'All'),(3,'Software Development Process','6300',1,1,1,'All'),(4,'Machine Learning','7641',1,1,1,'All'),(5,'High Performance Computer Architecture','6290',0,1,0,'Spring Only'),(6,'Software Architecture and Design','6310',1,1,1,'All'),(7,'Intro to Health Informatics','6440',1,0,0,'Fall Only'),(8,'Computability, Complexity and Algorithms','6505',1,1,1,'All'),(9,'Knowledge-Based Artificial Intelligence, Cognitive Systems','7637',1,1,1,'All'),(10,'Computer Vision','4495',0,1,0,'Spring Only'),(11,'Computational Photography','6475',1,0,0,'Fall Only'),(12,'Introduction to Operating Systems','8803-002',1,1,1,'All'),(13,'Artificial Intelligence for Robotics','8803-001',1,1,1,'All'),(14,'Introduction to Information Security','6035',0,1,0,'Spring Only'),(15,'High-Performance Computing','6220',1,0,0,'Fall Only'),(16,'Machine Learning for Trading','7646',0,1,0,'Spring Only'),(17,'Special Topics: Reinforcement Learning','8803',1,0,0,'Fall Only'),(18,'Special Topics: Big Data','8803',0,1,0,'Spring Only');
+/*!40000 ALTER TABLE `Course` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `CourseDependency`
+--
+
+DROP TABLE IF EXISTS `CourseDependency`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `CourseDependency` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `prereq` int(11) NOT NULL,
+  `dependency` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `CourseDependencyPrereqIdx` (`prereq`,`dependency`),
+  KEY `CourseDependencyDepIdx` (`dependency`),
+  CONSTRAINT `CourseDependencyFkDepCourseId` FOREIGN KEY (`dependency`) REFERENCES `Course` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `CourseDependencyFkPreCourseId` FOREIGN KEY (`prereq`) REFERENCES `Course` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `CourseDependency`
+--
+
+LOCK TABLES `CourseDependency` WRITE;
+/*!40000 ALTER TABLE `CourseDependency` DISABLE KEYS */;
+INSERT INTO `CourseDependency` VALUES (4,3,7),(1,4,16),(3,9,13),(2,12,1);
+/*!40000 ALTER TABLE `CourseDependency` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `DATABASECHANGELOG`
+--
+
+DROP TABLE IF EXISTS `DATABASECHANGELOG`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `DATABASECHANGELOG` (
+  `ID` varchar(255) NOT NULL,
+  `AUTHOR` varchar(255) NOT NULL,
+  `FILENAME` varchar(255) NOT NULL,
+  `DATEEXECUTED` datetime NOT NULL,
+  `ORDEREXECUTED` int(11) NOT NULL,
+  `EXECTYPE` varchar(10) NOT NULL,
+  `MD5SUM` varchar(35) DEFAULT NULL,
+  `DESCRIPTION` varchar(255) DEFAULT NULL,
+  `COMMENTS` varchar(255) DEFAULT NULL,
+  `TAG` varchar(255) DEFAULT NULL,
+  `LIQUIBASE` varchar(20) DEFAULT NULL,
+  `CONTEXTS` varchar(255) DEFAULT NULL,
+  `LABELS` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `DATABASECHANGELOG`
+--
+
+LOCK TABLES `DATABASECHANGELOG` WRITE;
+/*!40000 ALTER TABLE `DATABASECHANGELOG` DISABLE KEYS */;
+INSERT INTO `DATABASECHANGELOG` VALUES ('raw','includeAll','db/changelog/0010-course_dependency-table.sql','2016-04-24 13:17:11',1,'EXECUTED','7:52be12611610f4f74ece895b7dca4b18','sql','',NULL,'3.4.2',NULL,NULL),('raw','includeAll','db/changelog/0020-Course-table.sql','2016-04-24 13:17:11',2,'EXECUTED','7:4551e5abba445a0a9eaed5e93124f985','sql','',NULL,'3.4.2',NULL,NULL),('raw','includeAll','db/changelog/0030-CourseDependency-table.sql','2016-04-24 13:17:11',3,'EXECUTED','7:d4188d1880abacc644d28434d321739d','sql','',NULL,'3.4.2',NULL,NULL),('raw','includeAll','db/changelog/0040-Semester-table.sql','2016-04-24 13:17:11',4,'EXECUTED','7:d1564def88313cb1aedf53bffff2ee9b','sql','',NULL,'3.4.2',NULL,NULL),('raw','includeAll','db/changelog/0050-update_Course_table.sql','2016-04-24 13:17:11',5,'EXECUTED','7:db15db36331078c9819e4fe429b0366a','sql','',NULL,'3.4.2',NULL,NULL),('raw','includeAll','db/changelog/0060-Create_Student_table.sql','2016-04-24 13:17:11',6,'EXECUTED','7:369413893ffa57c7cd7c8512f325b600','sql','',NULL,'3.4.2',NULL,NULL),('raw','includeAll','db/changelog/0070-Create_StudentDemand-table.sql','2016-04-24 13:17:11',7,'EXECUTED','7:b60a5fee90de2c1ceef2ac8f3871d70a','sql','',NULL,'3.4.2',NULL,NULL),('0080-1','mlarson','db/changelog/0080-Create_EventLogType-table.sql','2016-04-24 13:17:11',8,'EXECUTED','7:5f4e45dad52d67c8044e053ec4666a12','sql','',NULL,'3.4.2',NULL,NULL),('0080-2','mlarson','db/changelog/0080-Create_EventLogType-table.sql','2016-04-24 13:17:11',9,'EXECUTED','7:406132bbf57e8c6b8262e7ee4e04edc9','sql','',NULL,'3.4.2',NULL,NULL),('0080-3','mlarson','db/changelog/0080-Create_EventLogType-table.sql','2016-04-24 13:17:11',10,'EXECUTED','7:e73825ac4052218869cdb6c6776c87d6','sql','',NULL,'3.4.2',NULL,NULL),('0090-1','mlarson','db/changelog/0090-Create_EventLog-table.sql','2016-04-24 13:17:11',11,'EXECUTED','7:68ca0de89c1deb1c24fda61382990bdd','sql','',NULL,'3.4.2',NULL,NULL),('0090-2','mlarson','db/changelog/0090-Create_EventLog-table.sql','2016-04-24 13:17:11',12,'EXECUTED','7:c2800caf31956e1ed6ff96435b0088ed','sql','',NULL,'3.4.2',NULL,NULL),('0090-3','mlarson','db/changelog/0090-Create_EventLog-table.sql','2016-04-24 13:17:11',13,'EXECUTED','7:71137cd0c3e2406e04ffc68a61676ec6','sql','',NULL,'3.4.2',NULL,NULL),('0090-4','mlarson','db/changelog/0090-Create_EventLog-table.sql','2016-04-24 13:17:11',14,'EXECUTED','7:5cc0ee5df552978a153726db37807a01','sql','',NULL,'3.4.2',NULL,NULL),('0090-5','mlarson','db/changelog/0090-Create_EventLog-table.sql','2016-04-24 13:17:11',15,'EXECUTED','7:711596e27454f36c3e6eadb66d5290bc','sql','',NULL,'3.4.2',NULL,NULL),('0090-6','mlarson','db/changelog/0090-Create_EventLog-table.sql','2016-04-24 13:17:11',16,'EXECUTED','7:5f33585507b6dd36057d2c30050dac01','sql','',NULL,'3.4.2',NULL,NULL),('0100-1','mlarson','db/changelog/0100-Update_Course_name_column.sql','2016-04-24 13:17:11',17,'EXECUTED','7:a26afbb76da9dbbf29c940bf8a1683bd','sql','',NULL,'3.4.2',NULL,NULL),('0110-1','mlarson','db/changelog/0110-Create_ScheduleResult-table.sql','2016-04-24 13:17:11',18,'EXECUTED','7:1a333517af482a0dd0f65f33908f082c','sql','',NULL,'3.4.2',NULL,NULL),('0110-2','mlarson','db/changelog/0110-Create_ScheduleResult-table.sql','2016-04-24 13:17:11',19,'EXECUTED','7:3fe1ecb0e413ca370ac85105b51e96ef','sql','',NULL,'3.4.2',NULL,NULL),('0110-3','mlarson','db/changelog/0110-Create_ScheduleResult-table.sql','2016-04-24 13:17:11',20,'EXECUTED','7:9bab6038ae9e4e622a8cd65cbe7b6e1f','sql','',NULL,'3.4.2',NULL,NULL),('0110-4','mlarson','db/changelog/0110-Create_ScheduleResult-table.sql','2016-04-24 13:17:11',21,'EXECUTED','7:df906ea0cc8ad43149a5b87989288cff','sql','',NULL,'3.4.2',NULL,NULL),('0110-5','mlarson','db/changelog/0110-Create_ScheduleResult-table.sql','2016-04-24 13:17:11',22,'EXECUTED','7:3ca6d66ba9cea4ac19dee7f091b2b939','sql','',NULL,'3.4.2',NULL,NULL),('0110-6','mlarson','db/changelog/0110-Create_ScheduleResult-table.sql','2016-04-24 13:17:11',23,'EXECUTED','7:5d9c4ba85ebf9b752e51d5f8ae06310f','sql','',NULL,'3.4.2',NULL,NULL),('0110-7','mlarson','db/changelog/0110-Create_ScheduleResult-table.sql','2016-04-24 13:17:11',24,'EXECUTED','7:637a384cc5e8709bcde213542590a11b','sql','',NULL,'3.4.2',NULL,NULL),('0120-1','mlarson','db/changelog/0120-Update_EventLog_add_result_done.sql','2016-04-24 13:17:11',25,'EXECUTED','7:2deb803f83740ca252557d62ac6d75ab','sql','',NULL,'3.4.2',NULL,NULL);
+/*!40000 ALTER TABLE `DATABASECHANGELOG` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `DATABASECHANGELOGLOCK`
+--
+
+DROP TABLE IF EXISTS `DATABASECHANGELOGLOCK`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `DATABASECHANGELOGLOCK` (
+  `ID` int(11) NOT NULL,
+  `LOCKED` bit(1) NOT NULL,
+  `LOCKGRANTED` datetime DEFAULT NULL,
+  `LOCKEDBY` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `DATABASECHANGELOGLOCK`
+--
+
+LOCK TABLES `DATABASECHANGELOGLOCK` WRITE;
+/*!40000 ALTER TABLE `DATABASECHANGELOGLOCK` DISABLE KEYS */;
+INSERT INTO `DATABASECHANGELOGLOCK` VALUES (1,'\0',NULL,NULL);
+/*!40000 ALTER TABLE `DATABASECHANGELOGLOCK` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `EventLog`
+--
+
+DROP TABLE IF EXISTS `EventLog`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `EventLog` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `semesterId` int(11) NOT NULL,
+  `eventData` text NOT NULL,
+  `createdDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `isShadowMode` tinyint(1) NOT NULL,
+  `eventLogTypeId` int(11) NOT NULL,
+  `resultCalculated` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `EventLogEventTypeFkIdx` (`eventLogTypeId`),
+  KEY `EventLogSemesterFkIdx` (`semesterId`),
+  KEY `EventLogIsShadowModeIdx` (`isShadowMode`),
+  CONSTRAINT `EventLogEventTypeFk` FOREIGN KEY (`eventLogTypeId`) REFERENCES `EventLogType` (`id`),
+  CONSTRAINT `EventLogSemesterFk` FOREIGN KEY (`semesterId`) REFERENCES `Semester` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `EventLog`
+--
+
+LOCK TABLES `EventLog` WRITE;
+/*!40000 ALTER TABLE `EventLog` DISABLE KEYS */;
+INSERT INTO `EventLog` VALUES (1,1,'{\"courseEvents\":[{\"courseId\":1,\"maxSize\":50},{\"courseId\":2,\"maxSize\":50},{\"courseId\":3,\"maxSize\":50},{\"courseId\":4,\"maxSize\":50},{\"courseId\":6,\"maxSize\":50},{\"courseId\":7,\"maxSize\":50},{\"courseId\":8,\"maxSize\":50},{\"courseId\":9,\"maxSize\":50},{\"courseId\":11,\"maxSize\":50},{\"courseId\":12,\"maxSize\":50},{\"courseId\":13,\"maxSize\":50},{\"courseId\":15,\"maxSize\":50},{\"courseId\":17,\"maxSize\":50}]}','2016-04-24 17:17:16',0,1,0),(2,2,'{\"courseEvents\":[{\"courseId\":2,\"maxSize\":50},{\"courseId\":3,\"maxSize\":50},{\"courseId\":4,\"maxSize\":50},{\"courseId\":5,\"maxSize\":50},{\"courseId\":6,\"maxSize\":50},{\"courseId\":8,\"maxSize\":50},{\"courseId\":9,\"maxSize\":50},{\"courseId\":10,\"maxSize\":50},{\"courseId\":12,\"maxSize\":50},{\"courseId\":13,\"maxSize\":50},{\"courseId\":14,\"maxSize\":50},{\"courseId\":16,\"maxSize\":50},{\"courseId\":18,\"maxSize\":50}]}','2016-04-24 17:17:16',0,1,0),(3,3,'{\"courseEvents\":[{\"courseId\":2,\"maxSize\":50},{\"courseId\":3,\"maxSize\":50},{\"courseId\":4,\"maxSize\":50},{\"courseId\":6,\"maxSize\":50},{\"courseId\":8,\"maxSize\":50},{\"courseId\":9,\"maxSize\":50},{\"courseId\":12,\"maxSize\":50},{\"courseId\":13,\"maxSize\":50}]}','2016-04-24 17:17:16',0,1,0),(4,4,'{\"courseEvents\":[{\"courseId\":1,\"maxSize\":50},{\"courseId\":2,\"maxSize\":50},{\"courseId\":3,\"maxSize\":50},{\"courseId\":4,\"maxSize\":50},{\"courseId\":6,\"maxSize\":50},{\"courseId\":7,\"maxSize\":50},{\"courseId\":8,\"maxSize\":50},{\"courseId\":9,\"maxSize\":50},{\"courseId\":11,\"maxSize\":50},{\"courseId\":12,\"maxSize\":50},{\"courseId\":13,\"maxSize\":50},{\"courseId\":15,\"maxSize\":50},{\"courseId\":17,\"maxSize\":50}]}','2016-04-24 17:17:16',0,1,0),(5,5,'{\"courseEvents\":[{\"courseId\":2,\"maxSize\":50},{\"courseId\":3,\"maxSize\":50},{\"courseId\":4,\"maxSize\":50},{\"courseId\":5,\"maxSize\":50},{\"courseId\":6,\"maxSize\":50},{\"courseId\":8,\"maxSize\":50},{\"courseId\":9,\"maxSize\":50},{\"courseId\":10,\"maxSize\":50},{\"courseId\":12,\"maxSize\":50},{\"courseId\":13,\"maxSize\":50},{\"courseId\":14,\"maxSize\":50},{\"courseId\":16,\"maxSize\":50},{\"courseId\":18,\"maxSize\":50}]}','2016-04-24 17:17:16',0,1,0),(6,6,'{\"courseEvents\":[{\"courseId\":2,\"maxSize\":50},{\"courseId\":3,\"maxSize\":50},{\"courseId\":4,\"maxSize\":50},{\"courseId\":6,\"maxSize\":50},{\"courseId\":8,\"maxSize\":50},{\"courseId\":9,\"maxSize\":50},{\"courseId\":12,\"maxSize\":50},{\"courseId\":13,\"maxSize\":50}]}','2016-04-24 17:17:16',0,1,0),(7,7,'{\"courseEvents\":[{\"courseId\":1,\"maxSize\":50},{\"courseId\":2,\"maxSize\":50},{\"courseId\":3,\"maxSize\":50},{\"courseId\":4,\"maxSize\":50},{\"courseId\":6,\"maxSize\":50},{\"courseId\":7,\"maxSize\":50},{\"courseId\":8,\"maxSize\":50},{\"courseId\":9,\"maxSize\":50},{\"courseId\":11,\"maxSize\":50},{\"courseId\":12,\"maxSize\":50},{\"courseId\":13,\"maxSize\":50},{\"courseId\":15,\"maxSize\":50},{\"courseId\":17,\"maxSize\":50}]}','2016-04-24 17:17:16',0,1,0),(8,8,'{\"courseEvents\":[{\"courseId\":2,\"maxSize\":50},{\"courseId\":3,\"maxSize\":50},{\"courseId\":4,\"maxSize\":50},{\"courseId\":5,\"maxSize\":50},{\"courseId\":6,\"maxSize\":50},{\"courseId\":8,\"maxSize\":50},{\"courseId\":9,\"maxSize\":50},{\"courseId\":10,\"maxSize\":50},{\"courseId\":12,\"maxSize\":50},{\"courseId\":13,\"maxSize\":50},{\"courseId\":14,\"maxSize\":50},{\"courseId\":16,\"maxSize\":50},{\"courseId\":18,\"maxSize\":50}]}','2016-04-24 17:17:16',0,1,0),(9,9,'{\"courseEvents\":[{\"courseId\":2,\"maxSize\":50},{\"courseId\":3,\"maxSize\":50},{\"courseId\":4,\"maxSize\":50},{\"courseId\":6,\"maxSize\":50},{\"courseId\":8,\"maxSize\":50},{\"courseId\":9,\"maxSize\":50},{\"courseId\":12,\"maxSize\":50},{\"courseId\":13,\"maxSize\":50}]}','2016-04-24 17:17:16',0,1,0),(10,10,'{\"courseEvents\":[{\"courseId\":1,\"maxSize\":50},{\"courseId\":2,\"maxSize\":50},{\"courseId\":3,\"maxSize\":50},{\"courseId\":4,\"maxSize\":50},{\"courseId\":6,\"maxSize\":50},{\"courseId\":7,\"maxSize\":50},{\"courseId\":8,\"maxSize\":50},{\"courseId\":9,\"maxSize\":50},{\"courseId\":11,\"maxSize\":50},{\"courseId\":12,\"maxSize\":50},{\"courseId\":13,\"maxSize\":50},{\"courseId\":15,\"maxSize\":50},{\"courseId\":17,\"maxSize\":50}]}','2016-04-24 17:17:16',0,1,0),(11,11,'{\"courseEvents\":[{\"courseId\":2,\"maxSize\":50},{\"courseId\":3,\"maxSize\":50},{\"courseId\":4,\"maxSize\":50},{\"courseId\":5,\"maxSize\":50},{\"courseId\":6,\"maxSize\":50},{\"courseId\":8,\"maxSize\":50},{\"courseId\":9,\"maxSize\":50},{\"courseId\":10,\"maxSize\":50},{\"courseId\":12,\"maxSize\":50},{\"courseId\":13,\"maxSize\":50},{\"courseId\":14,\"maxSize\":50},{\"courseId\":16,\"maxSize\":50},{\"courseId\":18,\"maxSize\":50}]}','2016-04-24 17:17:16',0,1,0),(12,12,'{\"courseEvents\":[{\"courseId\":2,\"maxSize\":50},{\"courseId\":3,\"maxSize\":50},{\"courseId\":4,\"maxSize\":50},{\"courseId\":6,\"maxSize\":50},{\"courseId\":8,\"maxSize\":50},{\"courseId\":9,\"maxSize\":50},{\"courseId\":12,\"maxSize\":50},{\"courseId\":13,\"maxSize\":50}]}','2016-04-24 17:17:16',0,1,0),(13,2,'{\"studentId\":1,\"studentDemandCourseEvents\":[{\"courseId\":2,\"priority\":1},{\"courseId\":6,\"priority\":2}]}','2016-04-24 17:17:53',0,2,1),(46,2,'{\"studentId\":1,\"studentDemandCourseEvents\":[{\"courseId\":10,\"priority\":1},{\"courseId\":11,\"priority\":4},{\"courseId\":13,\"priority\":2}]}','2016-04-24 18:03:07',1,2,0),(47,2,'{\"studentId\":2,\"studentDemandCourseEvents\":[{\"courseId\":17,\"priority\":2},{\"courseId\":8,\"priority\":1},{\"courseId\":9,\"priority\":4}]}','2016-04-24 18:03:07',1,2,0),(48,2,'{\"studentId\":3,\"studentDemandCourseEvents\":[{\"courseId\":5,\"priority\":1}]}','2016-04-24 18:03:07',1,2,0),(49,2,'{\"studentId\":4,\"studentDemandCourseEvents\":[{\"courseId\":1,\"priority\":2},{\"courseId\":17,\"priority\":3},{\"courseId\":2,\"priority\":1},{\"courseId\":4,\"priority\":5},{\"courseId\":7,\"priority\":4}]}','2016-04-24 18:03:07',1,2,0),(50,2,'{\"studentId\":5,\"studentDemandCourseEvents\":[{\"courseId\":1,\"priority\":3},{\"courseId\":17,\"priority\":4},{\"courseId\":18,\"priority\":2},{\"courseId\":9,\"priority\":1}]}','2016-04-24 18:03:07',1,2,0),(51,2,'{\"studentId\":6,\"studentDemandCourseEvents\":[{\"courseId\":2,\"priority\":1}]}','2016-04-24 18:03:07',1,2,0),(52,2,'{\"studentId\":7,\"studentDemandCourseEvents\":[{\"courseId\":1,\"priority\":2},{\"courseId\":2,\"priority\":1},{\"courseId\":8,\"priority\":4},{\"courseId\":9,\"priority\":3}]}','2016-04-24 18:03:07',1,2,0),(53,2,'{\"studentId\":8,\"studentDemandCourseEvents\":[{\"courseId\":17,\"priority\":2},{\"courseId\":18,\"priority\":3},{\"courseId\":7,\"priority\":1},{\"courseId\":13,\"priority\":5},{\"courseId\":15,\"priority\":4}]}','2016-04-24 18:03:07',1,2,0),(54,2,'{\"studentId\":9,\"studentDemandCourseEvents\":[{\"courseId\":18,\"priority\":1},{\"courseId\":9,\"priority\":4},{\"courseId\":13,\"priority\":2}]}','2016-04-24 18:03:07',1,2,0),(55,2,'{\"studentId\":10,\"studentDemandCourseEvents\":[{\"courseId\":3,\"priority\":2},{\"courseId\":11,\"priority\":1}]}','2016-04-24 18:03:07',1,2,0),(56,2,'{\"studentId\":1,\"studentDemandCourseEvents\":[{\"courseId\":4,\"priority\":2},{\"courseId\":5,\"priority\":1}]}','2016-04-24 18:03:36',0,2,1),(57,2,'{\"studentId\":5,\"studentDemandCourseEvents\":[{\"courseId\":4,\"priority\":2},{\"courseId\":14,\"priority\":1}]}','2016-04-24 18:05:45',0,2,1);
+/*!40000 ALTER TABLE `EventLog` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `EventLogType`
+--
+
+DROP TABLE IF EXISTS `EventLogType`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `EventLogType` (
+  `id` int(11) NOT NULL,
+  `typeName` varchar(20) NOT NULL,
+  `description` varchar(500) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `EventLogType`
+--
+
+LOCK TABLES `EventLogType` WRITE;
+/*!40000 ALTER TABLE `EventLogType` DISABLE KEYS */;
+INSERT INTO `EventLogType` VALUES (1,'COURSES_ADDED','Added a set of courses for a particular semester'),(2,'STUDENT_DEMAND_ADDED','Added a set of student demanded courses for a particular semester');
+/*!40000 ALTER TABLE `EventLogType` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Semester`
+--
+
+DROP TABLE IF EXISTS `Semester`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Semester` (
+  `id` int(11) NOT NULL,
+  `name` varchar(25) NOT NULL,
+  `startDate` varchar(20) DEFAULT NULL,
+  `endDate` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Semester`
+--
+
+LOCK TABLES `Semester` WRITE;
+/*!40000 ALTER TABLE `Semester` DISABLE KEYS */;
+INSERT INTO `Semester` VALUES (1,'Fall Year 1','8/1/15','12/1/15'),(2,'Spring Year 1','2/1/16','6/1/16'),(3,'Summer Year 1','6/1/16','8/1/16'),(4,'Fall Year 2','8/1/16','12/1/16'),(5,'Spring Year 2','2/1/17','6/1/17'),(6,'Summer Year 2','6/1/17','8/1/17'),(7,'Fall Year 3','8/1/17','12/1/17'),(8,'Spring Year 3','2/1/18','6/1/18'),(9,'Summer Year 3','6/1/18','8/1/18'),(10,'Fall Year 4','8/1/18','12/1/18'),(11,'Spring Year 4','2/1/19','6/1/19'),(12,'Summer Year 4','6/1/19','8/1/19');
+/*!40000 ALTER TABLE `Semester` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Student`
+--
+
+DROP TABLE IF EXISTS `Student`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Student` (
+  `id` int(11) NOT NULL,
+  `seniority` int(11) NOT NULL,
+  `gpa` decimal(3,2) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Student`
+--
+
+LOCK TABLES `Student` WRITE;
+/*!40000 ALTER TABLE `Student` DISABLE KEYS */;
+INSERT INTO `Student` VALUES (1,4,3.00),(2,2,1.00),(3,5,3.50),(4,4,1.00),(5,7,2.50),(6,3,3.50),(7,3,1.00),(8,1,3.00),(9,2,1.50),(10,5,2.00);
+/*!40000 ALTER TABLE `Student` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `StudentDemand`
+--
+
+DROP TABLE IF EXISTS `StudentDemand`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `StudentDemand` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `studentId` int(11) NOT NULL,
+  `courseId` int(11) NOT NULL,
+  `semesterId` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `StudentDemandUniqIdx` (`studentId`,`courseId`,`semesterId`),
+  KEY `StudentDemandCourseIdIdx` (`courseId`),
+  KEY `StudentDemandSemesterIdIdx` (`semesterId`),
+  CONSTRAINT `StudentDemandFkCourseId` FOREIGN KEY (`courseId`) REFERENCES `Course` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `StudentDemandFkSemesterId` FOREIGN KEY (`semesterId`) REFERENCES `Semester` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `StudentDemandFkStudentId` FOREIGN KEY (`studentId`) REFERENCES `Student` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=82 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `StudentDemand`
+--
+
+LOCK TABLES `StudentDemand` WRITE;
+/*!40000 ALTER TABLE `StudentDemand` DISABLE KEYS */;
+INSERT INTO `StudentDemand` VALUES (5,1,4,3),(4,1,7,2),(3,1,14,5),(2,1,15,4),(1,1,16,1),(11,2,11,11),(10,2,12,12),(9,2,13,8),(8,2,14,9),(7,2,15,7),(6,2,16,6),(17,3,8,4),(16,3,12,6),(15,3,13,1),(14,3,14,12),(13,3,15,10),(12,3,16,11),(21,4,11,7),(20,4,12,6),(19,4,14,12),(18,4,16,5),(26,5,3,11),(25,5,9,6),(24,5,12,12),(23,5,13,8),(22,5,15,9),(31,6,12,7),(30,6,13,4),(29,6,14,1),(28,6,15,12),(27,6,16,10),(37,7,7,4),(36,7,12,1),(35,7,13,2),(34,7,14,6),(33,7,15,12),(32,7,16,5),(43,8,10,4),(42,8,12,6),(41,8,13,8),(40,8,14,10),(39,8,15,7),(38,8,16,5),(47,9,13,5),(46,9,14,3),(45,9,15,4),(44,9,16,1),(49,10,1,11),(48,10,2,12);
+/*!40000 ALTER TABLE `StudentDemand` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `StudentScheduleResult`
+--
+
+DROP TABLE IF EXISTS `StudentScheduleResult`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `StudentScheduleResult` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `eventLogId` bigint(20) NOT NULL,
+  `studentId` int(11) NOT NULL,
+  `courseId` int(11) NOT NULL,
+  `isAssigned` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `StudentScheduleResultUniqIdx` (`eventLogId`,`studentId`,`courseId`),
+  KEY `StudentScheduleResultStudentIdIdx` (`studentId`),
+  KEY `StudentScheduleResultCourseIdIdx` (`courseId`),
+  CONSTRAINT `StudentScheduleResultFkCourseId` FOREIGN KEY (`courseId`) REFERENCES `Course` (`id`),
+  CONSTRAINT `StudentScheduleResultFkEventLogId` FOREIGN KEY (`eventLogId`) REFERENCES `EventLog` (`id`),
+  CONSTRAINT `StudentScheduleResultFkStudentId` FOREIGN KEY (`studentId`) REFERENCES `Student` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `StudentScheduleResult`
+--
+
+LOCK TABLES `StudentScheduleResult` WRITE;
+/*!40000 ALTER TABLE `StudentScheduleResult` DISABLE KEYS */;
+INSERT INTO `StudentScheduleResult` VALUES (1,13,1,2,1),(2,13,1,6,1),(3,56,1,4,1),(4,56,1,5,1),(5,56,2,8,1),(6,56,2,9,1),(7,56,3,5,1),(8,56,4,2,1),(9,56,4,4,1),(10,56,5,9,1),(11,56,5,18,1),(12,56,6,2,1),(13,56,7,2,1),(14,56,7,9,1),(15,56,8,13,1),(16,56,8,18,1),(17,56,9,13,1),(18,56,9,18,1),(19,56,10,3,1),(20,57,1,4,1),(21,57,1,5,1),(22,57,2,8,1),(23,57,2,9,1),(24,57,3,5,1),(25,57,4,2,1),(26,57,4,4,1),(27,57,5,4,1),(28,57,5,14,1),(29,57,6,2,1),(30,57,7,2,1),(31,57,7,9,1),(32,57,8,13,1),(33,57,8,18,1),(34,57,9,13,1),(35,57,9,18,1),(36,57,10,3,1);
+/*!40000 ALTER TABLE `StudentScheduleResult` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2016-04-24 14:11:22

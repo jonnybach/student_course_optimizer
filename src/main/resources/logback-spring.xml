@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <!--Use Spring's basic logging format - note that this file itself is picked up automatically from the classpath by Spring -->
+    <!-- see https://docs.spring.io/spring-boot/docs/current/reference/html/howto-logging.html -->
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+
+    <!--Set Logback levels here-->
+    <logger name="edu.gatech" level="DEBUG"/>
+
+    <!-- logger name="org.hibernate.SQL" level="DEBUG"/ -->
+
+    <logger name="org.atmosphere" level="NONE"/>
+    <logger name="java.io" level="NONE"/>
+    <logger name="java.nio" level="NONE"/>
+
+</configuration>
